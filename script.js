@@ -10,7 +10,8 @@ const app = new Vue({
             axios.get("https://api.themoviedb.org/3/search/movie", {
                 params: {
                     api_key: this.key,
-                    query: this.query
+                    query: this.query,
+                    language: "it-IT"
                 }
             }).then((resp) => {
                 this.moviesList = resp.data.results

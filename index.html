@@ -14,7 +14,12 @@
         <input type="text" v-model="query">
         <button @click="querySubmit()">Cerca</button>
         <ul>
-            <li></li>
+            <li v-for="movie in moviesList">
+                {{movie.title}}
+                {{movie.original_title}}
+                {{movie.original_language}}
+                {{movie.vote_average}}
+            </li>
         </ul>
     </main>
     <script src="script.js"></script>
