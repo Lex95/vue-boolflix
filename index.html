@@ -7,6 +7,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <title>Boolflix</title>
 </head>
 <body>
@@ -17,7 +18,7 @@
             <li v-for="movie in moviesList">
                 {{movie.title}}
                 {{movie.original_title}}
-                {{movie.original_language}}
+                <span :class="getFlag(movie)"></span>
                 {{movie.vote_average}}
             </li>
         </ul>

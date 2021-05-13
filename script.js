@@ -3,7 +3,7 @@ const app = new Vue({
     data: {
         key: "c5d3024d8abad31949172938951b96d9",
         query: "",
-        moviesList: [],
+        moviesList: []
     },
     methods: {
         querySubmit() {
@@ -16,6 +16,26 @@ const app = new Vue({
             }).then((resp) => {
                 this.moviesList = resp.data.results
             })
+        },
+        getFlag(movie) {
+            return "flag-icon flag-icon-" + this.getCountryCode(movie.original_language)
+        },
+        // brutto brutto ma sto smattando
+        getCountryCode(language) {
+            switch (language) {
+                case "en":
+                    return "gb";
+                case "it":
+                    return "it";
+                case "fr":
+                    return "fr";
+                case "de":
+                    return "de";
+                case "es":
+                    return "es";
+                default:
+                    return "va";
+            }
         }
     }
 })
