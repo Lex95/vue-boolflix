@@ -29,12 +29,18 @@
                         <p><strong>Titolo:</strong> {{result.title}}</p>
                         <p><strong>Titolo originale:</strong> {{result.original_title}}
                             <span :class="getFlag(result)"></span></p>
-                        <p><strong>Voto:</strong>
+                        <p>
+                            <strong>Voto:</strong>
                             <i v-for="star in voteToStars(result)" class="fa fa-star" aria-hidden="true"></i><i
                                 v-for="estar in (5 - voteToStars(result))" class="fa fa-star-o" aria-hidden="true"></i>
                         </p>
-                        <p><strong>Overview:</strong> {{result.overview}}</p>
-                        <!-- non mi carica alcune overview :/ -->
+                        <p><strong>Cast:</strong>{{result.cast}}</p>
+                        <p class="overview">
+                            <strong>Overview:</strong>
+                            <span v-if="result.overview != ''">{{result.overview}}</span>
+                            <span v-else><em>Non disponibile</em></span>
+                        </p>
+
                     </div>
                 </li>
             </ul>

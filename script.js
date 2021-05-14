@@ -4,12 +4,13 @@ const app = new Vue({
         key: "c5d3024d8abad31949172938951b96d9",
         query: "",
         moviesList: [],
-        tvSeriesList: [],
-        resultList: []
+        tvSeriesList: []
     },
     computed: {
         getResultList() {
-            return this.resultList = this.moviesList.concat(this.tvSeriesList)
+            // aggiungo una nuova chiave cast con la funzione che ho già fatto
+            const result = this.moviesList.concat(this.tvSeriesList);
+            return result
         }
     },
     methods: {
@@ -67,6 +68,25 @@ const app = new Vue({
         },
         voteToStars(movie) {
             return Math.ceil(movie.vote_average / 2)
+        },
+        getActors(movie) {
+            var searchType = "";
+            if (this.moviesList.includes(movie)) {
+                searchType = "movie/"
+            } else {
+                searchType = "tv/"
+            }
+
+            var cast = [];
+            axios.get("https://api.themoviedb.org/3/" + searchType + movie.id + "/credits?api_key=" + this.key).then((resp) => {
+                resp.data.cast.forEach((element, index) => {
+                    if (index < 5) {
+                        cast.push(resp.data.cast[index].name)
+                    }
+                })
+                console.log(cast)
+            })
+            return cast.join(", ")
         }
     }
 })
