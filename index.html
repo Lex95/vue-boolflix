@@ -15,11 +15,11 @@
         <input type="text" v-model="query">
         <button @click="querySubmit()">Cerca</button>
         <ul>
-            <li v-for="movie in moviesList">
-                {{movie.title}}
-                {{movie.original_title}}
-                <span :class="getFlag(movie)"></span>
-                {{movie.vote_average}}
+            <li v-for="result in resultsList">
+                {{result.title}}
+                {{result.original_title}}
+                <span :class="getFlag(result)"></span>
+                {{result.vote_average}}
             </li>
         </ul>
     </main>

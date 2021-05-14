@@ -3,19 +3,39 @@ const app = new Vue({
     data: {
         key: "c5d3024d8abad31949172938951b96d9",
         query: "",
-        moviesList: []
+        moviesList: [],
+        tvSeriesList: [],
+        resultsList: []
+    },
+    computed: {
+        getResultList() {
+            this.resultsList = this.moviesList.concat(this.tvSeriesList)
+        }
     },
     methods: {
-        querySubmit() {
-            axios.get("https://api.themoviedb.org/3/search/movie", {
+        doAxiosSearch(searchType) {
+            const axiosParameters = {
                 params: {
                     api_key: this.key,
                     query: this.query,
                     language: "it-IT"
                 }
-            }).then((resp) => {
-                this.moviesList = resp.data.results
+            }
+            axios.get("https://api.themoviedb.org/3/search/" + searchType, axiosParameters).then((resp) => {
+                if (searchType == "movie") {
+                    this.moviesList = resp.data.results
+                } else if (searchType == "tv") {
+                    this.tvSeriesList = resp.data.results.map((element) => {
+                        element.original_title = element.original_name;
+                        element.title = element.name;
+                        return element
+                    })
+                }
             })
+        },
+        querySubmit() {
+            this.doAxiosSearch("movie");
+            this.doAxiosSearch("tv");
         },
         getFlag(movie) {
             return "flag-icon flag-icon-" + this.getCountryCode(movie.original_language)
