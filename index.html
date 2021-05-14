@@ -16,16 +16,15 @@
 
 <body>
     <main id="app">
-        <header>
-            <input type="text" v-model="query">
-            <button @click="querySubmit()">Cerca</button>
+        <header class="container-flex">
+            <h1>Boolflix</h1>
+            <div class="filler"></div>
+            <input type="text" v-model="query" @keydown.enter="querySubmit" placeholder="Cerca">
         </header>
-        <div class="container-flex">
-            <ul>
+        <div>
+            <ul class="container-flex">
                 <li v-for="result in getResultList">
-                    <div class="img-container">
-                        <img :src="getPosterUrl(result)" alt="">
-                    </div>
+                    <img :src="getPosterUrl(result)" :alt="result.original_title">
                     <div class="info">
                         <p><strong>Titolo:</strong> {{result.title}}</p>
                         <p><strong>Titolo originale:</strong> {{result.original_title}}
@@ -35,6 +34,7 @@
                                 v-for="estar in (5 - voteToStars(result))" class="fa fa-star-o" aria-hidden="true"></i>
                         </p>
                         <p><strong>Overview:</strong> {{result.overview}}</p>
+                        <!-- non mi carica alcune overview :/ -->
                     </div>
                 </li>
             </ul>
