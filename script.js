@@ -5,11 +5,11 @@ const app = new Vue({
         query: "",
         moviesList: [],
         tvSeriesList: [],
-        resultsList: []
+        resultList: []
     },
     computed: {
         getResultList() {
-            this.resultsList = this.moviesList.concat(this.tvSeriesList)
+            return this.resultList = this.moviesList.concat(this.tvSeriesList)
         }
     },
     methods: {

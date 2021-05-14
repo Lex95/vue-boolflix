@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,23 +10,37 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="style.css">
     <title>Boolflix</title>
 </head>
+
 <body>
     <main id="app">
-        <input type="text" v-model="query">
-        <button @click="querySubmit()">Cerca</button>
-        <ul>
-            <li v-for="result in resultsList">
-                <img :src="getPosterUrl(result)" alt="">
-                {{result.title}}
-                {{result.original_title}}
-                <span :class="getFlag(result)"></span>
-                {{result.vote_average}}
-                <i v-for="star in voteToStars(result)" class="fa fa-star" aria-hidden="true"></i><i v-for="estar in (5 - voteToStars(result))" class="fa fa-star-o" aria-hidden="true"></i>
-            </li>
-        </ul>
+        <header>
+            <input type="text" v-model="query">
+            <button @click="querySubmit()">Cerca</button>
+        </header>
+        <div class="container-flex">
+            <ul>
+                <li v-for="result in getResultList">
+                    <div class="img-container">
+                        <img :src="getPosterUrl(result)" alt="">
+                    </div>
+                    <div class="info">
+                        <p><strong>Titolo:</strong> {{result.title}}</p>
+                        <p><strong>Titolo originale:</strong> {{result.original_title}}
+                            <span :class="getFlag(result)"></span></p>
+                        <p><strong>Voto:</strong>
+                            <i v-for="star in voteToStars(result)" class="fa fa-star" aria-hidden="true"></i><i
+                                v-for="estar in (5 - voteToStars(result))" class="fa fa-star-o" aria-hidden="true"></i>
+                        </p>
+                        <p><strong>Overview:</strong> {{result.overview}}</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </main>
     <script src="script.js"></script>
 </body>
+
 </html>
