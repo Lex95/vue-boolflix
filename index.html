@@ -8,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>Boolflix</title>
 </head>
 <body>
@@ -16,10 +17,12 @@
         <button @click="querySubmit()">Cerca</button>
         <ul>
             <li v-for="result in resultsList">
+                <img :src="getPosterUrl(result)" alt="">
                 {{result.title}}
                 {{result.original_title}}
                 <span :class="getFlag(result)"></span>
                 {{result.vote_average}}
+                <i v-for="star in voteToStars(result)" class="fa fa-star" aria-hidden="true"></i><i v-for="estar in (5 - voteToStars(result))" class="fa fa-star-o" aria-hidden="true"></i>
             </li>
         </ul>
     </main>

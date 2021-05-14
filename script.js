@@ -56,6 +56,17 @@ const app = new Vue({
                 default:
                     return "va";
             }
+        },
+        getPosterUrl(movie) {
+            const posterWidth = 342
+            if (movie.poster_path) {
+                return "https://image.tmdb.org/t/p/w" + posterWidth + movie.poster_path
+            } else {
+                return ""
+            }
+        },
+        voteToStars(movie) {
+            return Math.ceil(movie.vote_average / 2)
         }
     }
 })
