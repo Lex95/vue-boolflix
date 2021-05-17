@@ -19,7 +19,11 @@
         <header class="container-flex">
             <h1>Boolflix</h1>
             <div class="filler"></div>
-            <input type="text" v-model="query" @keydown.enter="querySubmit" placeholder="Cerca">
+            <!-- <select v-model="selectedGenre" name="" id="" v-if="">
+                <option value="">Tutti</option>
+                <option v-for="genre in genresList" :value="genre">{{genre.name}}</option>
+            </select> -->
+            <input type="text" v-model="query" @keydown.enter="querySubmit" @keyup.enter="getGenres" placeholder="Cerca">
         </header>
         <div>
             <ul class="container-flex">
@@ -34,7 +38,16 @@
                             <i v-for="star in voteToStars(result)" class="fa fa-star" aria-hidden="true"></i><i
                                 v-for="estar in (5 - voteToStars(result))" class="fa fa-star-o" aria-hidden="true"></i>
                         </p>
-                        <p><strong>Cast:</strong>{{result.cast}}</p>
+                        <p>
+                            <strong>Cast:</strong>
+                            <span v-if="result.cast.length != 0">{{result.cast.join(", ")}}</span>
+                            <span v-else><em>Non disponibile</em></span>
+                        </p>
+                        <p>
+                            <strong>Genere:</strong>
+                            <span v-if="result.genre_ids">{{result.genere.join(", ")}}</span>
+                            <span v-else><em>Non disponibile</em></span>
+                        </p>
                         <p class="overview">
                             <strong>Overview:</strong>
                             <span v-if="result.overview != ''">{{result.overview}}</span>

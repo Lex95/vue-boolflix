@@ -4,12 +4,17 @@ const app = new Vue({
         key: "c5d3024d8abad31949172938951b96d9",
         query: "",
         moviesList: [],
-        tvSeriesList: []
+        tvSeriesList: [],
+        genresList: [],
+        selectedGenre: ""
     },
     computed: {
         getResultList() {
-            // aggiungo una nuova chiave cast con la funzione che ho già fatto
             const result = this.moviesList.concat(this.tvSeriesList);
+            result.map((element) => {
+                this.getActors(element);
+                this.getMovieGenre(element)
+            })
             return result
         }
     },
@@ -24,7 +29,7 @@ const app = new Vue({
             }
             axios.get("https://api.themoviedb.org/3/search/" + searchType, axiosParameters).then((resp) => {
                 if (searchType == "movie") {
-                    this.moviesList = resp.data.results
+                    this.moviesList = resp.data.results;
                 } else if (searchType == "tv") {
                     this.tvSeriesList = resp.data.results.map((element) => {
                         element.original_title = element.original_name;
@@ -84,9 +89,41 @@ const app = new Vue({
                         cast.push(resp.data.cast[index].name)
                     }
                 })
-                console.log(cast)
             })
-            return cast.join(", ")
+            this.$set(movie, "cast", cast)
+        },
+        getGenres() {
+            const axiosParameters = {
+                params: {
+                    api_key: this.key,
+                    language: "it-IT"
+                }
+            }
+            var result = [];
+            axios.get("https://api.themoviedb.org/3/genre/movie/list", axiosParameters).then((resp) => {
+                result = resp.data.genres
+            })
+            axios.get("https://api.themoviedb.org/3/genre/tv/list", axiosParameters).then((resp) => {
+                result.forEach(element => {
+                    if (!result.includes(element)) {
+                        result.push(element)
+                    }
+                })
+            })
+            this.genresList = result
+        },
+        getMovieGenre(movie) {
+            const ids = movie.genre_ids;
+            const result = [];
+
+            this.genresList.forEach(element => {
+                for (let i = 0; i < ids.length; i++) {
+                    if (ids[i] == element.id && !ids.include(element.id)) {
+                        result.push(element.name)
+                    }
+                }
+            })
+            this.$set(movie, "genere", result)
         }
     }
 })
