@@ -20,8 +20,8 @@
             <h1>Boolflix</h1>
             <div class="filler"></div>
             <select v-model="selectedGenre" name="" id="" @click="getGenres">
-                <option value="">Tutti</option>
-                <option v-for="genre in getGenresList" :value="genre.name">{{genre.name}}</option>
+                <option value="-1">Tutti</option>
+                <option v-for="genre in getGenresList" :value="genre.id">{{genre.name}}</option>
             </select>
             <input type="text" v-model="query" @keydown.enter="querySubmit" placeholder="Cerca">
         </header>
@@ -30,7 +30,10 @@
                 <li v-for="result in getResultList">
                     <img :src="getPosterUrl(result)" :alt="result.original_title">
                     <div class="info">
-                        <p><strong>Titolo:</strong> {{result.title}}</p>
+                        <p>
+                            <strong>Titolo:</strong>
+                            {{result.title}}
+                        </p>
                         <p>
                             <strong>Titolo originale:</strong>
                             {{result.original_title}}

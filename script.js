@@ -7,7 +7,7 @@ const app = new Vue({
         tvSeriesList: [],
         moviesGenresList: [],
         tvSeriesGenresList: [],
-        selectedGenre: ""
+        selectedGenre: -1
     },
     computed: {
         getResultList() {
@@ -16,7 +16,11 @@ const app = new Vue({
                 this.getActors(element);
                 this.getMovieGenre(element)
             })
-            return result
+            if (this.selectedGenre == -1) {
+                return result
+            } else {
+                return result.filter(element => element.genre_ids.includes(this.selectedGenre))
+            }
         },
         getGenresList() {
             const result = this.moviesGenresList;
