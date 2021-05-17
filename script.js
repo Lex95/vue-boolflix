@@ -5,7 +5,8 @@ const app = new Vue({
         query: "",
         moviesList: [],
         tvSeriesList: [],
-        genresList: [],
+        moviesGenresList: [],
+        tvSeriesGenresList: [],
         selectedGenre: ""
     },
     computed: {
@@ -14,6 +15,15 @@ const app = new Vue({
             result.map((element) => {
                 this.getActors(element);
                 this.getMovieGenre(element)
+            })
+            return result
+        },
+        getGenresList() {
+            const result = this.moviesGenresList;
+            this.tvSeriesGenresList.forEach(element => {
+                if (!result.includes(element)) {
+                    result.push(element)
+                }
             })
             return result
         }
@@ -74,6 +84,7 @@ const app = new Vue({
         voteToStars(movie) {
             return Math.ceil(movie.vote_average / 2)
         },
+        // milestone 5
         getActors(movie) {
             var searchType = "";
             if (this.moviesList.includes(movie)) {
@@ -92,26 +103,6 @@ const app = new Vue({
             })
             this.$set(movie, "cast", cast)
         },
-        // getGenres() {
-        //     const axiosParameters = {
-        //         params: {
-        //             api_key: this.key,
-        //             language: "it-IT"
-        //         }
-        //     }
-        //     var result = [];
-        //     axios.get("https://api.themoviedb.org/3/genre/movie/list", axiosParameters).then((resp) => {
-        //         result = resp.data.genres
-        //     })
-        //     axios.get("https://api.themoviedb.org/3/genre/tv/list", axiosParameters).then((resp) => {
-        //         result.forEach(element => {
-        //             if (!result.includes(element)) {
-        //                 result.push(element)
-        //             }
-        //         })
-        //     })
-        //     this.genresList = result
-        // },
         getMovieGenre(movie) {
             var searchType = "";
             if (this.moviesList.includes(movie)) {
@@ -130,6 +121,27 @@ const app = new Vue({
                 resp.data.genres.forEach(element => result.push(element.name))
             })
             this.$set(movie, "genere", result)
+        },
+        // milestone 6
+        doAxiosGenreSearch(searchType) {
+            const axiosParameters = {
+                params: {
+                    api_key: this.key,
+                    language: "it-IT"
+                }
+            }
+
+            axios.get("https://api.themoviedb.org/3/genre/" + searchType + "/list", axiosParameters).then((resp) => {
+                if (searchType == "movie") {
+                    this.moviesGenresList = resp.data.genres
+                } else if (searchType == "tv") {
+                    this.tvSeriesGenresList = resp.data.genres
+                }
+            }) 
+        },
+        getGenres() {
+            this.doAxiosGenreSearch("movie");
+            this.doAxiosGenreSearch("tv")
         }
     }
 })

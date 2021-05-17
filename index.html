@@ -19,11 +19,11 @@
         <header class="container-flex">
             <h1>Boolflix</h1>
             <div class="filler"></div>
-            <!-- <select v-model="selectedGenre" name="" id="" v-if="">
+            <select v-model="selectedGenre" name="" id="" @click="getGenres">
                 <option value="">Tutti</option>
-                <option v-for="genre in genresList" :value="genre">{{genre.name}}</option>
-            </select> -->
-            <input type="text" v-model="query" @keydown.enter="querySubmit" @keyup.enter="getGenres" placeholder="Cerca">
+                <option v-for="genre in getGenresList" :value="genre.name">{{genre.name}}</option>
+            </select>
+            <input type="text" v-model="query" @keydown.enter="querySubmit" placeholder="Cerca">
         </header>
         <div>
             <ul class="container-flex">
@@ -31,8 +31,11 @@
                     <img :src="getPosterUrl(result)" :alt="result.original_title">
                     <div class="info">
                         <p><strong>Titolo:</strong> {{result.title}}</p>
-                        <p><strong>Titolo originale:</strong> {{result.original_title}}
-                            <span :class="getFlag(result)"></span></p>
+                        <p>
+                            <strong>Titolo originale:</strong>
+                            {{result.original_title}}
+                            <span :class="getFlag(result)"></span>
+                        </p>
                         <p>
                             <strong>Voto:</strong>
                             <i v-for="star in voteToStars(result)" class="fa fa-star" aria-hidden="true"></i><i
@@ -53,7 +56,6 @@
                             <span v-if="result.overview != ''">{{result.overview}}</span>
                             <span v-else><em>Non disponibile</em></span>
                         </p>
-
                     </div>
                 </li>
             </ul>
