@@ -20,7 +20,7 @@
             <h1>Boolflix</h1>
             <div class="filler"></div>
             <select v-model="selectedGenre" name="" id="" @click="getGenres">
-                <option value="-1">Tutti</option>
+                <option value="-1">Tutti i Generi</option>
                 <option v-for="genre in getGenresList" :value="genre.id">{{genre.name}}</option>
             </select>
             <input type="text" v-model="query" @keydown.enter="querySubmit" placeholder="Cerca">

@@ -60,19 +60,15 @@ const app = new Vue({
         getFlag(movie) {
             return "flag-icon flag-icon-" + this.getCountryCode(movie.original_language)
         },
-        // brutto brutto ma sto smattando
         getCountryCode(language) {
             switch (language) {
                 case "en":
                     return "gb";
                 case "it":
-                    return "it";
                 case "fr":
-                    return "fr";
                 case "de":
-                    return "de";
                 case "es":
-                    return "es";
+                    return language;
                 default:
                     return "va";
             }
