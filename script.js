@@ -92,7 +92,33 @@ const app = new Vue({
             })
             this.$set(movie, "cast", cast)
         },
-        getGenres() {
+        // getGenres() {
+        //     const axiosParameters = {
+        //         params: {
+        //             api_key: this.key,
+        //             language: "it-IT"
+        //         }
+        //     }
+        //     var result = [];
+        //     axios.get("https://api.themoviedb.org/3/genre/movie/list", axiosParameters).then((resp) => {
+        //         result = resp.data.genres
+        //     })
+        //     axios.get("https://api.themoviedb.org/3/genre/tv/list", axiosParameters).then((resp) => {
+        //         result.forEach(element => {
+        //             if (!result.includes(element)) {
+        //                 result.push(element)
+        //             }
+        //         })
+        //     })
+        //     this.genresList = result
+        // },
+        getMovieGenre(movie) {
+            var searchType = "";
+            if (this.moviesList.includes(movie)) {
+                searchType = "movie/"
+            } else {
+                searchType = "tv/"
+            }
             const axiosParameters = {
                 params: {
                     api_key: this.key,
@@ -100,28 +126,8 @@ const app = new Vue({
                 }
             }
             var result = [];
-            axios.get("https://api.themoviedb.org/3/genre/movie/list", axiosParameters).then((resp) => {
-                result = resp.data.genres
-            })
-            axios.get("https://api.themoviedb.org/3/genre/tv/list", axiosParameters).then((resp) => {
-                result.forEach(element => {
-                    if (!result.includes(element)) {
-                        result.push(element)
-                    }
-                })
-            })
-            this.genresList = result
-        },
-        getMovieGenre(movie) {
-            const ids = movie.genre_ids;
-            const result = [];
-
-            this.genresList.forEach(element => {
-                for (let i = 0; i < ids.length; i++) {
-                    if (ids[i] == element.id && !ids.include(element.id)) {
-                        result.push(element.name)
-                    }
-                }
+            axios.get("https://api.themoviedb.org/3/" + searchType + movie.id, axiosParameters).then((resp) => {
+                resp.data.genres.forEach(element => result.push(element.name))
             })
             this.$set(movie, "genere", result)
         }
